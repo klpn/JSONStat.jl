@@ -17,7 +17,7 @@ To read a JSON-stat file containing a dataset.
 ```julia
 using JSONStat
 import JSON
-oecdjsonstat = JSON.parsefile("test/oecd.json",
+oecdjsonstat = JSON.parsefile("test/data/oecd.json",
 	dicttype = DataStructures.OrderedDict)
 oecd = readjsondataset(oecdjsonstat)
 ```
@@ -29,7 +29,7 @@ defined in `dimension` in `oecd.json` and the values defined in `value`.
 Older `bundle` responses containing a map of datasets can also be read:
 
 ```julia
-oecdcajsonstat = JSON.parsefile("test/oecd-canada.json",
+oecdcajsonstat = JSON.parsefile("test/data/oecd-canada.json",
 	dicttype = DataStructures.OrderedDict)
 oecdca = readjsonbundle(oecdcajsonstat)
 ```
