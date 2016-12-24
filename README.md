@@ -18,7 +18,7 @@ To read a JSON-stat file containing a dataset.
 using JSONStat
 import JSON
 oecdjsonstat = JSON.parsefile("test/oecd.json",
-dicttype=DataStructures.OrderedDict)
+	dicttype = DataStructures.OrderedDict)
 oecd = readjsondataset(oecdjsonstat)
 ```
 
@@ -30,7 +30,7 @@ Older `bundle` responses containing a map of datasets can also be read:
 
 ```julia
 oecdcajsonstat = JSON.parsefile("test/oecd-canada.json",
-dicttype=DataStructures.OrderedDict)
+	dicttype = DataStructures.OrderedDict)
 oecdca = readjsonbundle(oecdcajsonstat)
 ```
 
@@ -39,10 +39,10 @@ DataFrames, e.g. to be joined with the main `datasetframe` for a dataset:
 
 ```julia
 areaframe = labelframe("area", oecd)
-join(oecd["datasetframe"], areaframe, on=:area)
+join(oecd["datasetframe"], areaframe, on = :area)
 ```
 
-Ordered dicts with datasets can be written to JSON-stat:
+`OrderedDicts` with datasets can be written to JSON-stat:
 
 ```julia
 JSON.json(writejsondataset(oecd), 1)

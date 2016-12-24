@@ -5,7 +5,7 @@ using DataStructures, DataFrames
 export readjsondataset, readjsonbundle, writejsondataset, labelframe
 
 
-optkeys = Dict(
+optkeys = DataStructures.OrderedDict(
 		"dataset" => [
 			"version"; "class"; "role"; "label"; "updated"; "source";
 			"extension"; "href";"link"; "note"; "error"
