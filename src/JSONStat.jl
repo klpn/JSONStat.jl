@@ -40,9 +40,9 @@ function dimframe(id, dimjsonstat)
 	end
 	dimframe = DataFrame()
 	if typeof(dimdata)<:DataStructures.OrderedDict
-		dimframe[Symbol(id)] = collect(keys(dimdata))
+		dimframe[!, Symbol(id)] = collect(keys(dimdata))
 	else
-		dimframe[Symbol(id)] = dimdata
+		dimframe[!, Symbol(id)] = dimdata
 	end
 	dimdict["dimframe"] = dimframe
 	id => dimdict
@@ -59,10 +59,9 @@ function readjsondataset(datasetjsonstat)
 	dimkeys = collect(keys(dimension))
 	datasetframe = dimension[dimkeys[1]]["dimframe"]
 	for i in 2:size(dimkeys)[1]
-		datasetframe = join(datasetframe, dimension[dimkeys[i]]["dimframe"],
-			kind = :cross)
+		datasetframe = crossjoin(datasetframe, dimension[dimkeys[i]]["dimframe"])
 	end
-	datasetframe[:value] = datasetjsonstat["value"]
+	datasetframe[!, :value] = datasetjsonstat["value"]
 	datasetdict = DataStructures.OrderedDict()
 	for key in keys(datasetjsonstat)
 		if key in optkeys["dataset"]
@@ -77,8 +76,8 @@ end
 function labelframe(id, datasetdict)
 	labeldict = datasetdict["dimension"][id]["category"]["label"]
 	labelframe = DataFrame()
-	labelframe[Symbol(id)] = collect(keys(labeldict))
-	labelframe[Symbol("$(id)_label")] = collect(values(labeldict))
+	labelframe[!, Symbol(id)] = collect(keys(labeldict))
+	labelframe[!, Symbol("$(id)_label")] = collect(values(labeldict))
 	labelframe
 end
 
@@ -111,7 +110,7 @@ function writejsondataset(datasetdict)
 	end
 	datasetjsonstat["id"] = []
 	datasetjsonstat["size"] = []
-	datasetjsonstat["value"] = datasetjsonstat["datasetframe"][:value]
+	datasetjsonstat["value"] = datasetjsonstat["datasetframe"][!, :value]
 	delete!(datasetjsonstat, "datasetframe")
 	idarr = collect(keys(datasetjsonstat["dimension"]))
 	foreach((x)->writedimid(x, datasetjsonstat), idarr)
